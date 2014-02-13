@@ -1,4 +1,4 @@
-name := "clustering"
+name := "simcluster"
 
 organization := "org.plenix"
 

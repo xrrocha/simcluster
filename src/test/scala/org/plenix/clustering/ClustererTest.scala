@@ -16,7 +16,9 @@ class ClustererTest extends FunSuite {
     val actualClusters = clusterer.cluster(names, scorers: _*).sortBy(-_.size)
     val expectedClusters = readResource("surname-clusters.txt").map { _.split(',').toSeq }
 
-    assert(actualClusters == expectedClusters)
+    println(s"actualClusters: ${actualClusters.map(_.size).sum} elements in ${actualClusters.size} clusters")
+    println(s"expectedClusters: ${expectedClusters.map(_.size).sum} elements in ${expectedClusters.size} clusters")
+    assert(expectedClusters == actualClusters)
   }
 }
 

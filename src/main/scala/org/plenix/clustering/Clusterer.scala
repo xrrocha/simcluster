@@ -229,20 +229,15 @@ class Clusterer(listener: Option[ClustererListener] = None) {
   def buildScores(size: Int, pairs: Seq[(Int, Int)], scorers: (SimilarityScorer[Int], Double)*): Seq[(Int, Int, Seq[Double])] =
     pairs
       .par
-      .map {
-      case (index1, index2) =>
-        val scores = scorers.map {
-          case (scorer, _) => scorer.score(index1, index2)
-        }
-        (index1, index2, scores)
+      .map { case (index1, index2) =>
+      val scores = scorers.map { case (scorer, _) => scorer.score(index1, index2)}
+      (index1, index2, scores)
     }
       .filter {
       case (_, _, scores) =>
         val matchCount = scores
           .zip(scorers.map(_._2))
-          .takeWhile {
-          case (sim, minSim) => sim >= minSim
-        }
+          .takeWhile { case (sim, minSim) => sim >= minSim}
           .length
         matchCount >= (scorers.length / 2.0).round
     }

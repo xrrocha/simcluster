@@ -9,21 +9,22 @@ import org.plenix.similarity.string.LuceneJaroWinkler
 import org.apache.lucene.search.spell.JaroWinklerDistance
 
 object RunClusterer extends App with Logging {
-  def filename(part: String) = s"data/all_term${part}.dat"
+  def filename(part: String) = s"data/spanish-surname${part}.dat"
 
-//  val terms =
-//    Source
-//      .fromFile(filename("s"))
-//      .getLines
-//      .map(_.split('\t')(0)).toSeq
+  val terms =
+    Source
+      .fromFile(filename("s"))
+      .getLines
+      //.take(1024)
+      .map(_.split('\t')(0)).toVector
 
-  val terms = Seq(
-    "alejandro", "alejnadro", "alejo",
-    "marlene", "marleny", "marleney",
-    "marta", "martha",
-    "ricardo")
+//  val terms = Seq(
+//    "alejandro", "alejnadro", "alejo",
+//    "marlene", "marleny", "marleney",
+//    "marta", "martha",
+//    "ricardo")
 
-  val stringScorers = Seq((LuceneJaroWinkler, 0.84), (LuceneLevenstein, 0.0))
+  val stringScorers = Seq((LuceneJaroWinkler, 0.9)/*, (LuceneLevenstein, 0.0)*/)
 
   val scorers =
     stringScorers
